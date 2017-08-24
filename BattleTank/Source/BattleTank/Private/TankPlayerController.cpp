@@ -20,9 +20,27 @@ void ATankPlayerController::BeginPlay()
 	}
 }
 
+void ATankPlayerController::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+
+	AimTowardsCrosshair();
+}
+
 // ATank gets input from TankPlayerController (AI or Player). But to do that we need to cast it in TankPlayerController. We control the pawn from the controller
 
 ATank* ATankPlayerController::GetControlledTank() const
 {
 	return Cast<ATank>(GetPawn());
+}
+
+void ATankPlayerController::AimTowardsCrosshair()
+{
+	if (!GetControlledTank())
+	{
+		return;
+	}
+	//Get World location if linetrace goes through crosshair
+	//If it hits the landscape
+		//Tell controlled tank to aim at this point
 }
