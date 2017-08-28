@@ -27,7 +27,7 @@ void ATankPlayerController::Tick(float DeltaTime)
 	AimTowardsCrosshair();
 }
 
-// ATank gets input from TankPlayerController (AI or Player). But to do that we need to cast it in TankPlayerController. We control the pawn from the controller
+//ATank gets input from TankPlayerController (AI or Player). But to do that we need to cast it in TankPlayerController. We control the pawn from the controller
 
 ATank* ATankPlayerController::GetControlledTank() const
 {
@@ -36,11 +36,21 @@ ATank* ATankPlayerController::GetControlledTank() const
 
 void ATankPlayerController::AimTowardsCrosshair()
 {
-	if (!GetControlledTank())
+	if (!GetControlledTank()) { return; }
+
+	FVector HitLocation;
+	if (GetSightRayhitLocation(HitLocation)) //Has "side-effect", is going to line trace
 	{
-		return;
+		UE_LOG(LogTemp, Warning, TEXT("HitLocation: %s"), *HitLocation.ToString());
+
+		//TODO Tell controlled tank to aim at this point
 	}
-	//Get World location if linetrace goes through crosshair
-	//If it hits the landscape
-		//Tell controlled tank to aim at this point
+}
+
+//Get World location of linetrace through crosshair, true if its landscape
+bool ATankPlayerController::GetSightRayhitLocation(FVector& OutHitLocation) const
+{
+	OutHitLocation = FVector(1.0);
+
+	return true;
 }
